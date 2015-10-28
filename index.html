@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<style>
+.slot-box {
+	width: 200px;
+	height: 100px;
+	display: inline-block;
+	border: 1px solid red;
+	overflow: hidden;
+	position: relative;
+}
+
+.slot-value {
+	width: 200px;
+	height: 100px;
+	font-size: 54px;
+	text-align: center;
+
+}
+.slot-column {
+	position: absolute;
+	top: 0;
+	/*transition: top cubic-bezier(.96,.08,0,.86) 2500ms;
+	*/
+}
+</style>
+</head>
+<body>
+<div class="slot-box trans">
+	<div class="slot-column">
+		<div class="slot-value">30</div>
+		<div class="slot-value">20</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">10</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">50</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">40</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">20</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">40</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">50</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">10</div>
+		<div class="slot-value">30</div>
+		<div class="slot-value">40</div>
+		<div class="slot-value">20</div>
+		<div class="slot-value">30</div>
+	</div>
+</div>
+
+<script>
+var blocks = $('.slot-value');
+var blockHeight = $('.slot-value').height();
+
+function run() {
+	$('.slot-column').animate( { top: '-' + ( (blocks.length-1)*blockHeight ) }, {
+		easing: 'linear',
+		duration: 2000,
+		complete: function() {
+			$('.slot-column').css( { top: 0 } );
+			run();
+		},
+		fail: function() {
+			var top = $(this).position().top;
+			top = ( Math.ceil(top / blockHeight) - 1 ) * blockHeight;
+			$('.slot-column').animate({top: top }, {
+				easing: 'linear',
+				duration: 800,
+				complete: function() {
+					var top = Math.ceil( -$(this).position().top / blockHeight );
+					alert( top );
+				}
+			});
+		}
+	}  );
+}
+
+function stop() {
+	$('.slot-column').stop();
+}
+</script>
+<input type="button" value="Run" onclick="run();"/>
+<input type="button" value="Stop" onclick="stop();"/>
+</body>
+</html>
+
